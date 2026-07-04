@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: CleanCloud
+providerId: drycleancloud
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Dry Cleaning
+- Laundry
+- Point of Sale
+- Rate Limiting
+- Quotas
+description: >-
+  CleanCloud publishes explicit API limits. Each account with API access (Grow,
+  Grow+, or Pro in Mexico) is allowed 50,000 API requests per month, with a
+  maximum burst of 3 requests per second. Monthly usage beyond the included
+  allowance can be extended by purchasing additional bundles of 25,000 requests
+  (approximately $15 USD/GBP/EUR each). Limits are enforced per account/API
+  token.
+notes: >-
+  Exact throttling response codes and headers are not documented on the public
+  API page; the 3-requests-per-second ceiling and 50,000-per-month allowance are
+  stated directly by CleanCloud. Verify current numbers at
+  https://cleancloudapp.com/api and in the Help Centre.
+sources:
+- https://cleancloudapp.com/api
+- https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
+responseCodes:
+  throttled: 429
+limits:
+- name: Monthly Request Quota
+  scope: account
+  metric: requests
+  limit: 50000 per month
+  notes: Included with Grow and Grow+ (Pro in Mexico); extendable via 25,000-request bundles.
+- name: Request Rate
+  scope: account
+  metric: requests
+  limit: 3 per second
+  notes: Maximum sustained request rate per account/API token.
+- name: Additional Request Bundle
+  scope: account
+  metric: requests
+  limit: 25000 per bundle
+  notes: Purchasable add-on at approx $15 (USD/GBP/EUR) per 25,000 requests.
+policies:
+- name: Tier Gating
+  description: API and Webhook access is restricted to the Grow and Grow+ subscription tiers (Pro in Mexico).
+- name: Backoff Strategy
+  description: Clients should stay under 3 requests/second and implement retry with exponential backoff and jitter to avoid throttling.
+- name: Quota Monitoring
+  description: Track monthly request consumption against the 50,000 allowance and purchase additional bundles before exhausting the quota.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

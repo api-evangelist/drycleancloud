@@ -1,0 +1,227 @@
+aid: drycleancloud
+url: https://raw.githubusercontent.com/api-evangelist/drycleancloud/refs/heads/main/apis.yml
+name: CleanCloud
+kind: company
+description: CleanCloud is cloud-based point-of-sale (POS) and business management
+  software for dry cleaners, laundromats, laundry services, and shoe repair
+  businesses. It handles orders, garment tracking, customers, pickup and delivery
+  routing, payments, inventory, marketing, and reporting. CleanCloud exposes a
+  documented public REST API (base https://cleancloudapp.com/api) for programmatic
+  access to customers, orders, garments, products, price lists, inventory, pickup
+  and delivery scheduling, payments, subscriptions, invoices, promotions, and
+  reporting, plus outbound Webhooks for order and customer events. API access is
+  available on the Grow and Grow+ subscription tiers, authenticated with a
+  per-account API token and metered at 50,000 requests per month (max 3 requests
+  per second).
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Dry Cleaning
+- Laundry
+- Point of Sale
+- POS
+- Field Service
+- Pickup and Delivery
+- SMB Software
+created: '2026-07-04'
+modified: '2026-07-04'
+specificationVersion: '0.19'
+apis:
+- aid: drycleancloud:drycleancloud-customers-api
+  name: CleanCloud Customers API
+  tags:
+  - Customers
+  - CRM
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: https://cleancloudapp.com/api
+    type: APIReference
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Create, update, delete, retrieve, and authenticate customer accounts,
+    trigger password-reset emails, and query customers by ID or a created/updated
+    date range. Endpoints are POST calls to /addCustomer, /updateCustomer,
+    /deleteCustomer, /getCustomer, /loginCustomer, and /passwordCustomer.
+- aid: drycleancloud:drycleancloud-orders-api
+  name: CleanCloud Orders API
+  tags:
+  - Orders
+  - Garments
+  - Fulfillment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Create, update, delete, and list dry-cleaning and laundry orders, and
+    manage the individual garments within an order (lookup by barcode, list per
+    order, and update color, notes, location, or status). Endpoints include
+    /addOrder, /updateOrder, /deleteOrder, /getOrders, /getGarment, /getGarments,
+    and /updateGarment.
+- aid: drycleancloud:drycleancloud-products-api
+  name: CleanCloud Products & Inventory API
+  tags:
+  - Products
+  - Price Lists
+  - Inventory
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Retrieve the active product catalog (optionally including parent
+    products and upcharges), all active price lists, and current inventory stock
+    levels. Endpoints are /getProducts, /getPriceLists, and /getInventory.
+- aid: drycleancloud:drycleancloud-deliveries-api
+  name: CleanCloud Pickup & Delivery API
+  tags:
+  - Pickup and Delivery
+  - Routing
+  - Scheduling
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Schedule and manage recurring pickups, resolve delivery routes from an
+    address or coordinates, list available pickup/delivery dates and time slots, and
+    fetch a driver's current location for an order. Endpoints include /repeatPickup,
+    /updateRepeatPickup, /deletePickup, /getPickups, /getDates, /getSlots,
+    /getRoute, and /driverLocation.
+- aid: drycleancloud:drycleancloud-payments-api
+  name: CleanCloud Payments & Promotions API
+  tags:
+  - Payments
+  - Subscriptions
+  - Coupons
+  - Loyalty
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: List payments and invoices, save and charge payment cards (Stripe,
+    Clearent, Amazon) and set a default card, manage recurring customer
+    subscriptions, apply or validate promo/coupon codes, and convert loyalty points
+    to account credit. Endpoints include /getPayments, /getInvoices, /addCard,
+    /chargeCard, /getCards, /setDefaultCard, /addSubscription, /deleteSubscription,
+    /getSubscription, /usePromo, and /convertLoyaltyPoints.
+- aid: drycleancloud:drycleancloud-stores-api
+  name: CleanCloud Business & Reporting API
+  tags:
+  - Stores
+  - Business Accounts
+  - Reporting
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Retrieve business (commercial) account configurations, pull daily
+    summary report metrics for a date range, fetch photos attached to an order, add
+    a customer to a customer group, and get a customer's referral code and gift
+    details. CleanCloud does not document a dedicated multi-store listing endpoint;
+    business/location context is exposed through /getBusinessAccounts. Endpoints
+    include /getBusinessAccounts, /summaryReport, /getPhotos, /addToCustomerGroup,
+    and /getReferral.
+- aid: drycleancloud:drycleancloud-messaging-api
+  name: CleanCloud Messaging API
+  tags:
+  - Messaging
+  - Notifications
+  - Customer Communication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cleancloudapp.com/api
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://cleancloudapp.com/api
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  - url: collections/drycleancloud.postman_collection.json
+    type: PostmanCollection
+  - url: collections/drycleancloud.opencollection.json
+    type: OpenCollection
+  description: Send messages between a customer and a store and retrieve message
+    history (with an optional result limit), plus register and remove Firebase push
+    notification tokens for iOS and Android apps. Endpoints include /addMessage,
+    /getMessages, /addPushToken, and /deletePushToken.
+- aid: drycleancloud:drycleancloud-webhooks-api
+  name: CleanCloud Webhooks
+  tags:
+  - Webhooks
+  - Events
+  - Push
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
+  baseURL: https://cleancloudapp.com/api
+  properties:
+  - url: https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
+    type: Documentation
+  - url: openapi/drycleancloud-openapi.yml
+    type: OpenAPI
+  description: Outbound webhooks that POST to a configured external URL when an event
+    occurs. CleanCloud publishes 10 events - order.created (in-store),
+    order.created (pickup and delivery), order.status_changed,
+    order.pickup_rescheduled, order.delivery_rescheduled, order.nothing_to_pickup,
+    order.deleted, customer.created, customer.updated, and customer.deleted -
+    configured under Settings > Admin > Pickup and Delivery > API > Webhooks.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cleancloud
+- type: Website
+  url: https://cleancloudapp.com
+- type: Documentation
+  url: https://cleancloudapp.com/api
+- type: Plans
+  url: plans/drycleancloud-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/drycleancloud-rate-limits.yml
+- type: FinOps
+  url: finops/drycleancloud-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,1532 @@
+openapi: 3.0.3
+info:
+  title: CleanCloud API
+  description: >-
+    The CleanCloud API provides programmatic access to the CleanCloud
+    point-of-sale and business-management platform for dry cleaners,
+    laundromats, laundry services, and shoe repair businesses. It covers
+    customers, orders and garments, products, price lists, inventory, pickup and
+    delivery scheduling and routing, payments and subscriptions, invoices,
+    promotions and loyalty, messaging, and reporting.
+
+
+    All calls are HTTPS POST requests with a JSON body to
+    https://cleancloudapp.com/api and return JSON. Authentication uses a
+    per-account API token passed as the `api_token` field in the JSON request
+    body (found in the CleanCloud admin under Settings > Admin > Pickup and
+    Delivery > API). Because the token is a body field rather than an HTTP header
+    or query parameter, it is modeled here as a required `api_token` property on
+    each request schema rather than as an OpenAPI security scheme.
+
+
+    API access requires a Grow or Grow+ subscription (Pro in Mexico) and is
+    metered at 50,000 requests per month with a maximum of 3 requests per second;
+    additional 25,000-request bundles are available. CleanCloud also emits
+    outbound webhooks for order and customer events; those are documented in the
+    provider apis.yml and review, not as request/response paths here.
+  version: '1.0'
+  contact:
+    name: CleanCloud
+    url: https://cleancloudapp.com
+  x-authentication:
+    scheme: api_token
+    location: request body (JSON field `api_token`)
+    note: >-
+      Every endpoint requires the api_token field. It is not sent as an
+      Authorization header or query parameter.
+servers:
+  - url: https://cleancloudapp.com/api
+    description: CleanCloud production API
+tags:
+  - name: Customers
+    description: Customer accounts, authentication, and password reset.
+  - name: Orders
+    description: Orders and the garments within them.
+  - name: Products
+    description: Products, price lists, and inventory.
+  - name: Pickup and Delivery
+    description: Recurring pickups, routing, scheduling, and driver location.
+  - name: Payments
+    description: Payments, cards, subscriptions, invoices, promotions, and loyalty.
+  - name: Business and Reporting
+    description: Business accounts, reporting, photos, groups, and referrals.
+  - name: Messaging
+    description: Customer/store messaging and push notification tokens.
+paths:
+  /addCustomer:
+    post:
+      operationId: addCustomer
+      tags: [Customers]
+      summary: Create a customer
+      description: Creates a new customer account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: The created customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateCustomer:
+    post:
+      operationId: updateCustomer
+      tags: [Customers]
+      summary: Update a customer
+      description: Updates fields on an existing customer identified by customerID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+                - $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: The updated customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deleteCustomer:
+    post:
+      operationId: deleteCustomer
+      tags: [Customers]
+      summary: Delete a customer
+      description: Deletes a customer account by customerID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+      responses:
+        '200':
+          description: Deletion result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getCustomer:
+    post:
+      operationId: getCustomer
+      tags: [Customers]
+      summary: Get customer(s)
+      description: >-
+        Retrieves a single customer by customerID, or a set of customers by a
+        created/updated date range.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    customerID:
+                      type: string
+                      description: Retrieve a single customer by ID.
+                    dateFrom:
+                      type: string
+                      description: Start of a created/updated date range (YYYY-MM-DD).
+                    dateTo:
+                      type: string
+                      description: End of a created/updated date range (YYYY-MM-DD).
+      responses:
+        '200':
+          description: One or more customers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Customers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /loginCustomer:
+    post:
+      operationId: loginCustomer
+      tags: [Customers]
+      summary: Authenticate a customer
+      description: Authenticates a customer by email and password and returns the customer ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerEmail, customerPassword]
+                  properties:
+                    customerEmail:
+                      type: string
+                    customerPassword:
+                      type: string
+      responses:
+        '200':
+          description: Authentication result with customer ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /passwordCustomer:
+    post:
+      operationId: passwordCustomer
+      tags: [Customers]
+      summary: Send password reset
+      description: Triggers a password-reset email to the customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerEmail]
+                  properties:
+                    customerEmail:
+                      type: string
+      responses:
+        '200':
+          description: Reset email result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addOrder:
+    post:
+      operationId: addOrder
+      tags: [Orders]
+      summary: Create an order
+      description: Creates a new order for a customer with a list of products and a final total.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, finalTotal, products]
+                  properties:
+                    customerID:
+                      type: string
+                    finalTotal:
+                      type: number
+                    products:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/OrderProduct'
+      responses:
+        '200':
+          description: The created order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateOrder:
+    post:
+      operationId: updateOrder
+      tags: [Orders]
+      summary: Update an order
+      description: Updates an order's details, status, or payment state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [orderID]
+                  properties:
+                    orderID:
+                      type: string
+                    orderStatus:
+                      type: string
+                    paid:
+                      type: boolean
+      responses:
+        '200':
+          description: The updated order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deleteOrder:
+    post:
+      operationId: deleteOrder
+      tags: [Orders]
+      summary: Delete an order
+      description: Deletes an order, optionally validating against its pickup time.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [orderID]
+                  properties:
+                    orderID:
+                      type: string
+                    checkPickupTime:
+                      type: boolean
+      responses:
+        '200':
+          description: Deletion result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getOrders:
+    post:
+      operationId: getOrders
+      tags: [Orders]
+      summary: List orders
+      description: Retrieves orders filtered by customer, route, date, or status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    customerID:
+                      type: string
+                    orderStatus:
+                      type: string
+                    dateFrom:
+                      type: string
+                    dateTo:
+                      type: string
+      responses:
+        '200':
+          description: A list of orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getGarment:
+    post:
+      operationId: getGarment
+      tags: [Orders]
+      summary: Get a garment
+      description: Fetches a single garment by its barcode.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [barcode]
+                  properties:
+                    barcode:
+                      type: string
+      responses:
+        '200':
+          description: The requested garment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getGarments:
+    post:
+      operationId: getGarments
+      tags: [Orders]
+      summary: List garments in an order
+      description: Retrieves all garments belonging to an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [orderID]
+                  properties:
+                    orderID:
+                      type: string
+      responses:
+        '200':
+          description: A list of garments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Garments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateGarment:
+    post:
+      operationId: updateGarment
+      tags: [Orders]
+      summary: Update a garment
+      description: Updates a garment's color, notes, location, or status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [barcode]
+                  properties:
+                    barcode:
+                      type: string
+                    color:
+                      type: string
+                    notes:
+                      type: string
+                    location:
+                      type: string
+                    status:
+                      type: string
+      responses:
+        '200':
+          description: The updated garment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getProducts:
+    post:
+      operationId: getProducts
+      tags: [Products]
+      summary: List products
+      description: Lists active products, optionally including parent products and upcharges.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    includeParents:
+                      type: boolean
+                    includeUpcharges:
+                      type: boolean
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getPriceLists:
+    post:
+      operationId: getPriceLists
+      tags: [Products]
+      summary: List price lists
+      description: Retrieves all active price lists.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthBody'
+      responses:
+        '200':
+          description: A list of price lists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PriceLists:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getInventory:
+    post:
+      operationId: getInventory
+      tags: [Products]
+      summary: Get inventory
+      description: Fetches current inventory stock levels.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthBody'
+      responses:
+        '200':
+          description: Current inventory levels.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Inventory:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /repeatPickup:
+    post:
+      operationId: repeatPickup
+      tags: [Pickup and Delivery]
+      summary: Create a recurring pickup
+      description: Creates a scheduled recurring pickup for a customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+                    frequency:
+                      type: string
+                    dayOfWeek:
+                      type: string
+      responses:
+        '200':
+          description: The created recurring pickup.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateRepeatPickup:
+    post:
+      operationId: updateRepeatPickup
+      tags: [Pickup and Delivery]
+      summary: Update a recurring pickup
+      description: Modifies an existing recurring pickup schedule.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [pickupID]
+                  properties:
+                    pickupID:
+                      type: string
+                    frequency:
+                      type: string
+                    dayOfWeek:
+                      type: string
+      responses:
+        '200':
+          description: The updated recurring pickup.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deletePickup:
+    post:
+      operationId: deletePickup
+      tags: [Pickup and Delivery]
+      summary: Cancel a recurring pickup
+      description: Cancels a recurring pickup.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [pickupID]
+                  properties:
+                    pickupID:
+                      type: string
+      responses:
+        '200':
+          description: Cancellation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getPickups:
+    post:
+      operationId: getPickups
+      tags: [Pickup and Delivery]
+      summary: List recurring pickups
+      description: Retrieves a customer's recurring pickups.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+      responses:
+        '200':
+          description: A list of recurring pickups.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Pickups:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getDates:
+    post:
+      operationId: getDates
+      tags: [Pickup and Delivery]
+      summary: Get available dates
+      description: Returns available pickup/delivery dates with remaining slot counts.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    routeID:
+                      type: string
+      responses:
+        '200':
+          description: Available dates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Dates:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getSlots:
+    post:
+      operationId: getSlots
+      tags: [Pickup and Delivery]
+      summary: Get time slots
+      description: Returns available time slots for a route on a given day.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    routeID:
+                      type: string
+                    date:
+                      type: string
+      responses:
+        '200':
+          description: Available time slots.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Slots:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getRoute:
+    post:
+      operationId: getRoute
+      tags: [Pickup and Delivery]
+      summary: Resolve a route
+      description: Determines the delivery route from coordinates or an address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    address:
+                      type: string
+                    lat:
+                      type: number
+                    lng:
+                      type: number
+      responses:
+        '200':
+          description: The resolved route.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /driverLocation:
+    post:
+      operationId: driverLocation
+      tags: [Pickup and Delivery]
+      summary: Get driver location
+      description: Returns the current driver location for an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [orderID]
+                  properties:
+                    orderID:
+                      type: string
+      responses:
+        '200':
+          description: The current driver location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lat:
+                    type: number
+                  lng:
+                    type: number
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getPayments:
+    post:
+      operationId: getPayments
+      tags: [Payments]
+      summary: List payments
+      description: Lists payments, optionally filtered by date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    dateFrom:
+                      type: string
+                    dateTo:
+                      type: string
+      responses:
+        '200':
+          description: A list of payments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Payments:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getInvoices:
+    post:
+      operationId: getInvoices
+      tags: [Payments]
+      summary: List invoices
+      description: Retrieves invoices by customer, business account, or date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    customerID:
+                      type: string
+                    businessID:
+                      type: string
+                    dateFrom:
+                      type: string
+                    dateTo:
+                      type: string
+      responses:
+        '200':
+          description: A list of invoices.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Invoices:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addCard:
+    post:
+      operationId: addCard
+      tags: [Payments]
+      summary: Save a payment card
+      description: Saves a card via a Stripe, Clearent, or Amazon payment token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, token]
+                  properties:
+                    customerID:
+                      type: string
+                    token:
+                      type: string
+                    provider:
+                      type: string
+                      enum: [stripe, clearent, amazon]
+      responses:
+        '200':
+          description: The saved card.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /chargeCard:
+    post:
+      operationId: chargeCard
+      tags: [Payments]
+      summary: Charge a saved card
+      description: Charges an amount to a customer's saved card.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, amount]
+                  properties:
+                    customerID:
+                      type: string
+                    amount:
+                      type: number
+                    cardID:
+                      type: string
+      responses:
+        '200':
+          description: The charge result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getCards:
+    post:
+      operationId: getCards
+      tags: [Payments]
+      summary: List saved cards
+      description: Lists a customer's saved cards, by provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+                    provider:
+                      type: string
+      responses:
+        '200':
+          description: A list of saved cards.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Cards:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /setDefaultCard:
+    post:
+      operationId: setDefaultCard
+      tags: [Payments]
+      summary: Set default card
+      description: Designates a saved card as the customer's default payment method.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, cardID]
+                  properties:
+                    customerID:
+                      type: string
+                    cardID:
+                      type: string
+      responses:
+        '200':
+          description: Result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addSubscription:
+    post:
+      operationId: addSubscription
+      tags: [Payments]
+      summary: Create a subscription
+      description: Enables a recurring subscription for a customer (supports 3D Secure).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+                    planID:
+                      type: string
+      responses:
+        '200':
+          description: The created subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deleteSubscription:
+    post:
+      operationId: deleteSubscription
+      tags: [Payments]
+      summary: Cancel a subscription
+      description: Cancels a customer's recurring subscription.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [subscriptionID]
+                  properties:
+                    subscriptionID:
+                      type: string
+      responses:
+        '200':
+          description: Cancellation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getSubscription:
+    post:
+      operationId: getSubscription
+      tags: [Payments]
+      summary: Get a subscription
+      description: Retrieves a customer's subscription details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+      responses:
+        '200':
+          description: Subscription details.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /usePromo:
+    post:
+      operationId: usePromo
+      tags: [Payments]
+      summary: Apply a promo code
+      description: Applies a promo/coupon code, or validates it only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [promoCode]
+                  properties:
+                    promoCode:
+                      type: string
+                    customerID:
+                      type: string
+                    validateOnly:
+                      type: boolean
+      responses:
+        '200':
+          description: The promo result.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /convertLoyaltyPoints:
+    post:
+      operationId: convertLoyaltyPoints
+      tags: [Payments]
+      summary: Convert loyalty points
+      description: Converts a customer's loyalty points into account credit.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, points]
+                  properties:
+                    customerID:
+                      type: string
+                    points:
+                      type: integer
+      responses:
+        '200':
+          description: Conversion result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getBusinessAccounts:
+    post:
+      operationId: getBusinessAccounts
+      tags: [Business and Reporting]
+      summary: List business accounts
+      description: Retrieves business (commercial) account configurations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthBody'
+      responses:
+        '200':
+          description: A list of business accounts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  BusinessAccounts:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /summaryReport:
+    post:
+      operationId: summaryReport
+      tags: [Business and Reporting]
+      summary: Get summary report
+      description: Returns daily summary metrics for a date range.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    dateFrom:
+                      type: string
+                    dateTo:
+                      type: string
+      responses:
+        '200':
+          description: Summary metrics.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getPhotos:
+    post:
+      operationId: getPhotos
+      tags: [Business and Reporting]
+      summary: Get order photos
+      description: Retrieves photos associated with an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [orderID]
+                  properties:
+                    orderID:
+                      type: string
+      responses:
+        '200':
+          description: A list of photo URLs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Photos:
+                    type: array
+                    items:
+                      type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addToCustomerGroup:
+    post:
+      operationId: addToCustomerGroup
+      tags: [Business and Reporting]
+      summary: Add customer to group
+      description: Assigns a customer to a customer group.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, groupID]
+                  properties:
+                    customerID:
+                      type: string
+                    groupID:
+                      type: string
+      responses:
+        '200':
+          description: Result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getReferral:
+    post:
+      operationId: getReferral
+      tags: [Business and Reporting]
+      summary: Get referral code
+      description: Retrieves a customer's unique referral code and gift details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID]
+                  properties:
+                    customerID:
+                      type: string
+      responses:
+        '200':
+          description: Referral details.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addMessage:
+    post:
+      operationId: addMessage
+      tags: [Messaging]
+      summary: Send a message
+      description: Sends a message from a customer to the store.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, message]
+                  properties:
+                    customerID:
+                      type: string
+                    message:
+                      type: string
+      responses:
+        '200':
+          description: The sent message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getMessages:
+    post:
+      operationId: getMessages
+      tags: [Messaging]
+      summary: List messages
+      description: Retrieves messaging history, with an optional result limit.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  properties:
+                    customerID:
+                      type: string
+                    limit:
+                      type: integer
+      responses:
+        '200':
+          description: A list of messages.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Messages:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addPushToken:
+    post:
+      operationId: addPushToken
+      tags: [Messaging]
+      summary: Register a push token
+      description: Registers a Firebase push notification token for iOS or Android.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [customerID, token]
+                  properties:
+                    customerID:
+                      type: string
+                    token:
+                      type: string
+                    platform:
+                      type: string
+                      enum: [ios, android]
+      responses:
+        '200':
+          description: Result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deletePushToken:
+    post:
+      operationId: deletePushToken
+      tags: [Messaging]
+      summary: Remove a push token
+      description: Removes a push notification token on logout or uninstall.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AuthBody'
+                - type: object
+                  required: [token]
+                  properties:
+                    token:
+                      type: string
+      responses:
+        '200':
+          description: Result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    AuthBody:
+      type: object
+      required:
+        - api_token
+      properties:
+        api_token:
+          type: string
+          description: >-
+            Per-account API token from Settings > Admin > Pickup and Delivery >
+            API. Required on every request.
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    CustomerInput:
+      type: object
+      properties:
+        customerName:
+          type: string
+        customerTel:
+          type: string
+        customerEmail:
+          type: string
+        customerAddress:
+          type: string
+        customerPassword:
+          type: string
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        customerName:
+          type: string
+        customerTel:
+          type: string
+        customerEmail:
+          type: string
+        customerAddress:
+          type: string
+        credit:
+          type: number
+        loyaltyPoints:
+          type: integer
+    CustomerResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        customerID:
+          type: string
+    OrderProduct:
+      type: object
+      properties:
+        productID:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        customerID:
+          type: string
+        finalTotal:
+          type: number
+        orderStatus:
+          type: string
+        paid:
+          type: boolean
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    OrderResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        orderID:
+          type: string
+    Garment:
+      type: object
+      properties:
+        barcode:
+          type: string
+        orderID:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+        parentID:
+          type: string

@@ -1,0 +1,166 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: CleanCloud
+providerId: drycleancloud
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Dry Cleaning
+- Laundry
+- Point of Sale
+- POS
+- Plans
+description: >-
+  CleanCloud is sold as a tiered monthly SaaS subscription for dry cleaners,
+  laundromats, and laundry services, with tiers primarily differentiated by
+  monthly order volume and included features. Published tiers are Lite, Pro,
+  Grow, and Grow+. API and Webhook access is gated: it is available only on the
+  Grow and Grow+ tiers (and, in Mexico, on the Pro tier). The API itself carries
+  no separate base fee within those tiers, but usage above the included 50,000
+  requests/month is sold in additional 25,000-request bundles at roughly $15
+  (USD/GBP/EUR) each. Exact per-tier subscription prices vary by region and
+  promotion and are not fully published on the pricing page; a 14-day free trial
+  is offered on core plans.
+notes: >-
+  Order-limit figures are drawn from CleanCloud's public pricing page and
+  third-party listings and should be reconciled against a live quote. Grow+
+  requires contacting sales and a minimum 12-month commitment. Add-ons (SMS
+  credits, Journey credits, custom-branded app) are billed separately. Verify
+  current prices at https://cleancloudapp.com/pricing.
+sources:
+- https://cleancloudapp.com/pricing
+- https://cleancloudapp.com/api
+- https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
+plans:
+- id: cleancloud-lite
+  name: Lite
+  type: paid
+  description: >-
+    Entry tier with core POS, basic marketing, a hosted website, and 24/7 email
+    support. Does NOT include API or Webhook access. Approximately 500 orders per
+    month.
+  entries:
+  - label: Included Orders
+    name: lite_orders
+    type: usage
+    metric: orders
+    limit: 500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: monthly subscription (see pricing page; commonly around $75/month)
+    userMultiplied: false
+  elements:
+  - name: Core POS
+  - name: Hosted Website
+  - name: Basic Marketing
+  - name: 24/7 Email Support
+- id: cleancloud-pro
+  name: Pro
+  type: paid
+  description: >-
+    Adds pickup and delivery, route optimization, and multi-store features.
+    Approximately 2,000 orders per month. In Mexico, API access is available on
+    this tier; in other regions API access starts at Grow.
+  entries:
+  - label: Included Orders
+    name: pro_orders
+    type: usage
+    metric: orders
+    limit: 2000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: monthly subscription (see pricing page)
+    userMultiplied: false
+  elements:
+  - name: Everything in Lite
+  - name: Pickup and Delivery
+  - name: Route Optimization
+  - name: Multi-Store
+  - name: API Access (Mexico only)
+- id: cleancloud-grow
+  name: Grow
+  type: paid
+  description: >-
+    Most-popular tier adding automation (auto assembly, automated marketing,
+    review promotion) and, importantly, full API and Webhook access.
+    Approximately 3,000 orders per month.
+  entries:
+  - label: Included Orders
+    name: grow_orders
+    type: usage
+    metric: orders
+    limit: 3000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: monthly subscription (see pricing page; commonly around $125/month)
+    userMultiplied: false
+  - label: Included API Requests
+    name: grow_api_requests
+    type: usage
+    metric: requests
+    limit: 50000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included with subscription
+    userMultiplied: false
+  - label: Additional API Request Bundle
+    name: grow_api_bundle
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 25000
+    price: approx $15 (USD/GBP/EUR) per additional 25,000 requests
+    userMultiplied: false
+  elements:
+  - name: Everything in Pro
+  - name: API Access
+  - name: Webhooks
+  - name: Automation
+  - name: Automated Marketing
+- id: cleancloud-grow-plus
+  name: Grow+
+  type: enterprise
+  description: >-
+    Top tier including branded iOS/Android apps, a dedicated account manager, and
+    custom onboarding, plus full API and Webhook access. Approximately 10,000
+    orders per month. Requires contacting sales and a minimum 12-month
+    commitment.
+  entries:
+  - label: Included Orders
+    name: grow_plus_orders
+    type: usage
+    metric: orders
+    limit: 10000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  - label: Included API Requests
+    name: grow_plus_api_requests
+    type: usage
+    metric: requests
+    limit: 50000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included with subscription
+    userMultiplied: false
+  elements:
+  - name: Everything in Grow
+  - name: Branded iOS and Android Apps
+  - name: Dedicated Account Manager
+  - name: Custom Onboarding
+  - name: API Access
+  - name: Webhooks
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

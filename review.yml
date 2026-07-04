@@ -1,0 +1,147 @@
+aid: drycleancloud
+name: CleanCloud
+review:
+  question: Does CleanCloud expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-04'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. CleanCloud's public developer surface is
+    a request/response REST API over HTTPS (all endpoints are POST with a JSON
+    body to https://cleancloudapp.com/api). Its only event-driven, server-push
+    mechanism is outbound Webhooks: CleanCloud HTTP-POSTs a payload to a
+    merchant-configured URL when an order or customer event occurs. Webhooks are
+    server-to-endpoint HTTP callbacks, not a WebSocket transport, and there is no
+    inbound streaming or bidirectional socket to model.
+findings:
+  summary: |
+    CleanCloud does not publish a documented public WebSocket API. CleanCloud is
+    cloud-based point-of-sale and business-management software for dry cleaners,
+    laundromats, laundry services, and shoe repair. It exposes a real, documented
+    public REST API at https://cleancloudapp.com/api. Every endpoint is an HTTPS
+    POST that takes a JSON body and returns JSON. Authentication is a per-account
+    API token supplied as the `api_token` field in the request body (issued under
+    Settings > Admin > Pickup and Delivery > API). API access is gated to the
+    Grow and Grow+ subscription tiers (Pro in Mexico) and is metered at 50,000
+    requests per month with a maximum of 3 requests per second; additional
+    25,000-request bundles are sold at about $15. The only push mechanism is
+    outbound Webhooks (10 events), which are HTTP callbacks, not WebSockets. No
+    ws:// or wss:// endpoint is documented anywhere in CleanCloud's API page or
+    Help Centre.
+  openSource: |
+    CleanCloud is proprietary, closed-source commercial SaaS. There is no public
+    source repository or self-hostable engine; consumers integrate against the
+    hosted https://cleancloudapp.com/api service.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://cleancloudapp.com/api
+      documented: true
+      note: All endpoints are HTTPS POST with a JSON body, authenticated via the api_token body field. Returns JSON.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: >-
+        Outbound webhooks POST an event payload to a merchant-configured URL.
+        10 events - order.created (in-store), order.created (pickup and
+        delivery), order.status_changed, order.pickup_rescheduled,
+        order.delivery_rescheduled, order.nothing_to_pickup, order.deleted,
+        customer.created, customer.updated, customer.deleted. Server-to-endpoint
+        HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in CleanCloud's API page or Help Centre as of the review date.
+  endpointsConfirmed:
+    - POST https://cleancloudapp.com/api/addCustomer
+    - POST https://cleancloudapp.com/api/updateCustomer
+    - POST https://cleancloudapp.com/api/deleteCustomer
+    - POST https://cleancloudapp.com/api/getCustomer
+    - POST https://cleancloudapp.com/api/loginCustomer
+    - POST https://cleancloudapp.com/api/passwordCustomer
+    - POST https://cleancloudapp.com/api/addOrder
+    - POST https://cleancloudapp.com/api/updateOrder
+    - POST https://cleancloudapp.com/api/deleteOrder
+    - POST https://cleancloudapp.com/api/getOrders
+    - POST https://cleancloudapp.com/api/getGarment
+    - POST https://cleancloudapp.com/api/getGarments
+    - POST https://cleancloudapp.com/api/updateGarment
+    - POST https://cleancloudapp.com/api/getProducts
+    - POST https://cleancloudapp.com/api/getPriceLists
+    - POST https://cleancloudapp.com/api/getInventory
+    - POST https://cleancloudapp.com/api/repeatPickup
+    - POST https://cleancloudapp.com/api/updateRepeatPickup
+    - POST https://cleancloudapp.com/api/deletePickup
+    - POST https://cleancloudapp.com/api/getPickups
+    - POST https://cleancloudapp.com/api/getDates
+    - POST https://cleancloudapp.com/api/getSlots
+    - POST https://cleancloudapp.com/api/getRoute
+    - POST https://cleancloudapp.com/api/driverLocation
+    - POST https://cleancloudapp.com/api/getPayments
+    - POST https://cleancloudapp.com/api/getInvoices
+    - POST https://cleancloudapp.com/api/addCard
+    - POST https://cleancloudapp.com/api/chargeCard
+    - POST https://cleancloudapp.com/api/getCards
+    - POST https://cleancloudapp.com/api/setDefaultCard
+    - POST https://cleancloudapp.com/api/addSubscription
+    - POST https://cleancloudapp.com/api/deleteSubscription
+    - POST https://cleancloudapp.com/api/getSubscription
+    - POST https://cleancloudapp.com/api/usePromo
+    - POST https://cleancloudapp.com/api/convertLoyaltyPoints
+    - POST https://cleancloudapp.com/api/getBusinessAccounts
+    - POST https://cleancloudapp.com/api/summaryReport
+    - POST https://cleancloudapp.com/api/getPhotos
+    - POST https://cleancloudapp.com/api/addToCustomerGroup
+    - POST https://cleancloudapp.com/api/getReferral
+    - POST https://cleancloudapp.com/api/addMessage
+    - POST https://cleancloudapp.com/api/getMessages
+    - POST https://cleancloudapp.com/api/addPushToken
+    - POST https://cleancloudapp.com/api/deletePushToken
+  endpointsModeled:
+    - note: >-
+        All endpoints above are confirmed as documented on the CleanCloud API
+        page. Their exact request-parameter names and response shapes in the
+        OpenAPI are partly modeled from the documentation (e.g. api_token,
+        customerID, orderID, barcode, finalTotal, products) and should be
+        reconciled field-by-field against the live docs before code generation.
+  webhookEvents:
+    - order.created (In Store Orders)
+    - order.created (Pickup and Delivery Orders)
+    - order.status_changed
+    - order.pickup_rescheduled
+    - order.delivery_rescheduled
+    - order.nothing_to_pickup
+    - order.deleted
+    - customer.created
+    - customer.updated
+    - customer.deleted
+sources:
+  - url: https://cleancloudapp.com/api
+    type: APIReference
+    note: Primary API reference. Lists all endpoints; POST + JSON; api_token auth; 50,000 requests/month, 3/second; Grow/Grow+ required.
+  - url: https://cleancloudapp.com/
+    type: Website
+    note: Product overview for dry cleaning, laundromat, and laundry POS software.
+  - url: https://cleancloudapp.com/pricing
+    type: Pricing
+    note: Lite / Pro / Grow / Grow+ tiers; API access included on Grow and Grow+.
+  - url: https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
+    type: Documentation
+    note: Help Centre article listing the 10 webhook events, webhook configuration path, and API/rate-limit details.
+  - url: https://cleancloudapp.com/updates/727
+    type: Announcement
+    note: Introduction of Webhooks to the CleanCloud API.
+  - url: https://cleancloudapp.com/updates/787
+    type: Announcement
+    note: getInventory API endpoint announcement.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. CleanCloud's public API is
+    request/response REST (HTTPS POST + JSON), and its only event-driven
+    mechanism is outbound Webhooks (HTTP callbacks). No AsyncAPI document was
+    created because there is no server-push socket transport on CleanCloud's own
+    API to model; the webhook callbacks are plain HTTP POSTs to a merchant URL
+    and are documented in apis.yml and this review instead.

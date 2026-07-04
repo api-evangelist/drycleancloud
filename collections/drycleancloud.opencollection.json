@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud API",
+    "version": "1.0"
+  },
+  "request": {
+    "url": "https://cleancloudapp.com/api",
+    "header": [
+      { "name": "Content-Type", "value": "application/json" }
+    ]
+  },
+  "items": [
+    {
+      "info": { "name": "Customers", "type": "folder" },
+      "items": [
+        { "info": { "name": "Create a customer", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerName\": \"\",\n  \"customerTel\": \"\",\n  \"customerEmail\": \"\",\n  \"customerAddress\": \"\"\n}" } }, "docs": "Creates a new customer account." },
+        { "info": { "name": "Update a customer", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/updateCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Updates an existing customer by customerID." },
+        { "info": { "name": "Delete a customer", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/deleteCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Deletes a customer account." },
+        { "info": { "name": "Get customer(s)", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Retrieves a customer by ID or a date range." },
+        { "info": { "name": "Authenticate a customer", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/loginCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerEmail\": \"\",\n  \"customerPassword\": \"\"\n}" } }, "docs": "Authenticates a customer and returns the customer ID." },
+        { "info": { "name": "Send password reset", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/passwordCustomer", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerEmail\": \"\"\n}" } }, "docs": "Triggers a password-reset email." }
+      ]
+    },
+    {
+      "info": { "name": "Orders", "type": "folder" },
+      "items": [
+        { "info": { "name": "Create an order", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addOrder", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"finalTotal\": 0,\n  \"products\": []\n}" } }, "docs": "Creates a new order with products." },
+        { "info": { "name": "Update an order", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/updateOrder", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"orderID\": \"\"\n}" } }, "docs": "Updates order details, status, or payment." },
+        { "info": { "name": "Delete an order", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/deleteOrder", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"orderID\": \"\"\n}" } }, "docs": "Deletes an order." },
+        { "info": { "name": "List orders", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getOrders", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Retrieves orders by customer, route, date, or status." },
+        { "info": { "name": "Get a garment", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getGarment", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"barcode\": \"\"\n}" } }, "docs": "Fetches a single garment by barcode." },
+        { "info": { "name": "List garments in an order", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getGarments", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"orderID\": \"\"\n}" } }, "docs": "Retrieves all garments in an order." },
+        { "info": { "name": "Update a garment", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/updateGarment", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"barcode\": \"\"\n}" } }, "docs": "Updates garment color, notes, location, or status." }
+      ]
+    },
+    {
+      "info": { "name": "Products & Inventory", "type": "folder" },
+      "items": [
+        { "info": { "name": "List products", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getProducts", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Lists active products, optionally with parents and upcharges." },
+        { "info": { "name": "List price lists", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getPriceLists", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Retrieves all active price lists." },
+        { "info": { "name": "Get inventory", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getInventory", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Fetches current inventory stock levels." }
+      ]
+    },
+    {
+      "info": { "name": "Pickup & Delivery", "type": "folder" },
+      "items": [
+        { "info": { "name": "Create a recurring pickup", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/repeatPickup", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Creates a scheduled recurring pickup." },
+        { "info": { "name": "Update a recurring pickup", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/updateRepeatPickup", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"pickupID\": \"\"\n}" } }, "docs": "Modifies an existing recurring pickup schedule." },
+        { "info": { "name": "Cancel a recurring pickup", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/deletePickup", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"pickupID\": \"\"\n}" } }, "docs": "Cancels a recurring pickup." },
+        { "info": { "name": "List recurring pickups", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getPickups", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Retrieves a customer's recurring pickups." },
+        { "info": { "name": "Get available dates", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getDates", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Available pickup/delivery dates with slot counts." },
+        { "info": { "name": "Get time slots", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getSlots", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Time slots for a route on a given day." },
+        { "info": { "name": "Resolve a route", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getRoute", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"address\": \"\"\n}" } }, "docs": "Determines the delivery route from address or coordinates." },
+        { "info": { "name": "Get driver location", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/driverLocation", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"orderID\": \"\"\n}" } }, "docs": "Current driver location for an order." }
+      ]
+    },
+    {
+      "info": { "name": "Payments & Promotions", "type": "folder" },
+      "items": [
+        { "info": { "name": "List payments", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getPayments", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Lists payments with optional date filtering." },
+        { "info": { "name": "List invoices", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getInvoices", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Retrieves invoices by customer, business, or date." },
+        { "info": { "name": "Save a payment card", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addCard", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"token\": \"\"\n}" } }, "docs": "Saves a card via Stripe/Clearent/Amazon token." },
+        { "info": { "name": "Charge a saved card", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/chargeCard", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"amount\": 0\n}" } }, "docs": "Charges a customer's saved card." },
+        { "info": { "name": "List saved cards", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getCards", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Lists saved cards by provider." },
+        { "info": { "name": "Set default card", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/setDefaultCard", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"cardID\": \"\"\n}" } }, "docs": "Designates the default payment method." },
+        { "info": { "name": "Create a subscription", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addSubscription", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Enables a recurring subscription (supports 3D Secure)." },
+        { "info": { "name": "Cancel a subscription", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/deleteSubscription", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"subscriptionID\": \"\"\n}" } }, "docs": "Cancels a customer subscription." },
+        { "info": { "name": "Get a subscription", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getSubscription", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Retrieves subscription details." },
+        { "info": { "name": "Apply a promo code", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/usePromo", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"promoCode\": \"\"\n}" } }, "docs": "Applies a promo/coupon code, or validates it only." },
+        { "info": { "name": "Convert loyalty points", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/convertLoyaltyPoints", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"points\": 0\n}" } }, "docs": "Converts loyalty points to customer credit." }
+      ]
+    },
+    {
+      "info": { "name": "Business & Reporting", "type": "folder" },
+      "items": [
+        { "info": { "name": "List business accounts", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getBusinessAccounts", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Retrieves business account configurations." },
+        { "info": { "name": "Get summary report", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/summaryReport", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Daily summary metrics for a date range." },
+        { "info": { "name": "Get order photos", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getPhotos", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"orderID\": \"\"\n}" } }, "docs": "Retrieves photos associated with an order." },
+        { "info": { "name": "Add customer to group", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addToCustomerGroup", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"groupID\": \"\"\n}" } }, "docs": "Assigns a customer to a customer group." },
+        { "info": { "name": "Get referral code", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getReferral", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\"\n}" } }, "docs": "Retrieves a referral code and gift details." }
+      ]
+    },
+    {
+      "info": { "name": "Messaging", "type": "folder" },
+      "items": [
+        { "info": { "name": "Send a message", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addMessage", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"message\": \"\"\n}" } }, "docs": "Sends a message from a customer to the store." },
+        { "info": { "name": "List messages", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/getMessages", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\"\n}" } }, "docs": "Retrieves message history with an optional limit." },
+        { "info": { "name": "Register a push token", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/addPushToken", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"customerID\": \"\",\n  \"token\": \"\"\n}" } }, "docs": "Registers a Firebase push token for iOS/Android." },
+        { "info": { "name": "Remove a push token", "type": "http" }, "http": { "method": "POST", "url": "https://cleancloudapp.com/api/deletePushToken", "body": { "type": "json", "data": "{\n  \"api_token\": \"{{apiToken}}\",\n  \"token\": \"\"\n}" } }, "docs": "Removes a push token on logout/uninstall." }
+      ]
+    }
+  ],
+  "bundled": true
+}

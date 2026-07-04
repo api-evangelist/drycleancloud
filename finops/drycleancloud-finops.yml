@@ -1,0 +1,89 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: CleanCloud
+providerId: drycleancloud
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Dry Cleaning
+- Laundry
+- Point of Sale
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of CleanCloud spend. CleanCloud is a monthly SaaS subscription
+  billed per tier (Lite, Pro, Grow, Grow+), with tiers scaled by included
+  monthly order volume and features. The dominant cost is the flat monthly
+  subscription for the tier that carries the features a business needs; API and
+  Webhook access is bundled into the Grow and Grow+ tiers (Pro in Mexico) rather
+  than metered as its own line item. Incremental usage costs appear when a
+  business exceeds the included 50,000 API requests/month (billed in ~$15
+  bundles of 25,000 requests) or buys add-ons such as SMS credits, Journey
+  credits, or a custom-branded app.
+notes: >-
+  Per-tier subscription prices vary by region and promotion and are not fully
+  published; reconcile against a live CleanCloud quote. Costs here are the
+  buyer's cost of consuming CleanCloud, not CleanCloud's own infrastructure
+  spend.
+sources:
+- https://cleancloudapp.com/pricing
+- https://cleancloudapp.com/api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: CleanCloud
+serviceCategory: Business Applications
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+meters:
+- name: subscription_tier
+  description: Flat monthly subscription for the selected CleanCloud tier (Lite, Pro, Grow, Grow+).
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+  - tier
+- name: orders
+  description: Monthly order volume, which determines the required subscription tier.
+  unit: orders
+  aggregation: sum
+  dimensions:
+  - account
+  - store
+- name: api_requests
+  description: API requests against the 50,000/month allowance; overage billed in 25,000-request bundles.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+- name: addons
+  description: Optional add-ons - SMS credits, Journey credits, custom-branded app.
+  unit: units
+  aggregation: sum
+  dimensions:
+  - account
+  - addon
+principles:
+- name: Visibility
+  description: Track monthly order volume and API request consumption per account to know which tier and how many request bundles are actually needed.
+- name: Allocation
+  description: For multi-store operators, attribute subscription and add-on cost per store/location.
+- name: Optimization
+  description: Right-size the subscription tier to real order volume; batch and cache API calls to stay within the 50,000-request allowance and avoid overage bundles; only buy add-ons (SMS, custom app) when they pay back.
+- name: Accountability
+  description: Assign an owner to review the CleanCloud invoice monthly against order growth, API usage, and add-on consumption.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
