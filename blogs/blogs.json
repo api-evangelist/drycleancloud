@@ -1,0 +1,14 @@
+{
+  "repo": "drycleancloud",
+  "feeds": [
+    {
+      "source": "https://cleancloudapp.com/blog",
+      "feed_url": "https://cleancloudapp.com/blog",
+      "title": "CleanCloud Blog",
+      "saved": 0,
+      "error": "parse_failed"
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 6
+}
