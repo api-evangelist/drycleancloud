@@ -210,6 +210,8 @@ apis:
     order.deleted, customer.created, customer.updated, and customer.deleted -
     configured under Settings > Admin > Pickup and Delivery > API > Webhooks.
 common:
+- type: AgenticAccess
+  url: agentic-access/drycleancloud-agentic-access.yml
 - type: DomainSecurity
   url: security/drycleancloud-domain-security.yml
 - type: LinkedIn
