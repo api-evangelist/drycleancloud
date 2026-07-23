@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: CleanCloud Business and Reporting Orders API
+  description: 'The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses. It covers customers, orders and garments, products, price lists, inventory, pickup and delivery scheduling and routing, payments and subscriptions, invoices, promotions and loyalty, messaging, and reporting.
+
+
+    All calls are HTTPS POST requests with a JSON body to https://cleancloudapp.com/api and return JSON. Authentication uses a per-account API token passed as the `api_token` field in the JSON request body (found in the CleanCloud admin under Settings > Admin > Pickup and Delivery > API). Because the token is a body field rather than an HTTP header or query parameter, it is modeled here as a required `api_token` property on each request schema rather than as an OpenAPI security scheme.
+
+
+    API access requires a Grow or Grow+ subscription (Pro in Mexico) and is metered at 50,000 requests per month with a maximum of 3 requests per second; additional 25,000-request bundles are available. CleanCloud also emits outbound webhooks for order and customer events; those are documented in the provider apis.yml and review, not as request/response paths here.'
+  version: '1.0'
+  contact:
+    name: CleanCloud
+    url: https://cleancloudapp.com
+  x-authentication:
+    scheme: api_token
+    location: request body (JSON field `api_token`)
+    note: Every endpoint requires the api_token field. It is not sent as an Authorization header or query parameter.
+servers:
+- url: https://cleancloudapp.com/api
+  description: CleanCloud production API
+tags:
+- name: Orders
+  description: Orders and the garments within them.
+paths:
+  /addOrder:
+    post:
+      operationId: addOrder
+      tags:
+      - Orders
+      summary: Create an order
+      description: Creates a new order for a customer with a list of products and a final total.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                - finalTotal
+                - products
+                properties:
+                  customerID:
+                    type: string
+                  finalTotal:
+                    type: number
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderProduct'
+      responses:
+        '200':
+          description: The created order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateOrder:
+    post:
+      operationId: updateOrder
+      tags:
+      - Orders
+      summary: Update an order
+      description: Updates an order's details, status, or payment state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - orderID
+                properties:
+                  orderID:
+                    type: string
+                  orderStatus:
+                    type: string
+                  paid:
+                    type: boolean
+      responses:
+        '200':
+          description: The updated order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deleteOrder:
+    post:
+      operationId: deleteOrder
+      tags:
+      - Orders
+      summary: Delete an order
+      description: Deletes an order, optionally validating against its pickup time.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - orderID
+                properties:
+                  orderID:
+                    type: string
+                  checkPickupTime:
+                    type: boolean
+      responses:
+        '200':
+          description: Deletion result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getOrders:
+    post:
+      operationId: getOrders
+      tags:
+      - Orders
+      summary: List orders
+      description: Retrieves orders filtered by customer, route, date, or status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                properties:
+                  customerID:
+                    type: string
+                  orderStatus:
+                    type: string
+                  dateFrom:
+                    type: string
+                  dateTo:
+                    type: string
+      responses:
+        '200':
+          description: A list of orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getGarment:
+    post:
+      operationId: getGarment
+      tags:
+      - Orders
+      summary: Get a garment
+      description: Fetches a single garment by its barcode.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - barcode
+                properties:
+                  barcode:
+                    type: string
+      responses:
+        '200':
+          description: The requested garment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getGarments:
+    post:
+      operationId: getGarments
+      tags:
+      - Orders
+      summary: List garments in an order
+      description: Retrieves all garments belonging to an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - orderID
+                properties:
+                  orderID:
+                    type: string
+      responses:
+        '200':
+          description: A list of garments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Garments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /updateGarment:
+    post:
+      operationId: updateGarment
+      tags:
+      - Orders
+      summary: Update a garment
+      description: Updates a garment's color, notes, location, or status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - barcode
+                properties:
+                  barcode:
+                    type: string
+                  color:
+                    type: string
+                  notes:
+                    type: string
+                  location:
+                    type: string
+                  status:
+                    type: string
+      responses:
+        '200':
+          description: The updated garment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Garment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
+    OrderResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        orderID:
+          type: string
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        customerID:
+          type: string
+        finalTotal:
+          type: number
+        orderStatus:
+          type: string
+        paid:
+          type: boolean
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    Garment:
+      type: object
+      properties:
+        barcode:
+          type: string
+        orderID:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+    OrderProduct:
+      type: object
+      properties:
+        productID:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

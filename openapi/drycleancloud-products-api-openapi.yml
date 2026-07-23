@@ -1,0 +1,152 @@
+openapi: 3.0.3
+info:
+  title: CleanCloud Business and Reporting Products API
+  description: 'The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses. It covers customers, orders and garments, products, price lists, inventory, pickup and delivery scheduling and routing, payments and subscriptions, invoices, promotions and loyalty, messaging, and reporting.
+
+
+    All calls are HTTPS POST requests with a JSON body to https://cleancloudapp.com/api and return JSON. Authentication uses a per-account API token passed as the `api_token` field in the JSON request body (found in the CleanCloud admin under Settings > Admin > Pickup and Delivery > API). Because the token is a body field rather than an HTTP header or query parameter, it is modeled here as a required `api_token` property on each request schema rather than as an OpenAPI security scheme.
+
+
+    API access requires a Grow or Grow+ subscription (Pro in Mexico) and is metered at 50,000 requests per month with a maximum of 3 requests per second; additional 25,000-request bundles are available. CleanCloud also emits outbound webhooks for order and customer events; those are documented in the provider apis.yml and review, not as request/response paths here.'
+  version: '1.0'
+  contact:
+    name: CleanCloud
+    url: https://cleancloudapp.com
+  x-authentication:
+    scheme: api_token
+    location: request body (JSON field `api_token`)
+    note: Every endpoint requires the api_token field. It is not sent as an Authorization header or query parameter.
+servers:
+- url: https://cleancloudapp.com/api
+  description: CleanCloud production API
+tags:
+- name: Products
+  description: Products, price lists, and inventory.
+paths:
+  /getProducts:
+    post:
+      operationId: getProducts
+      tags:
+      - Products
+      summary: List products
+      description: Lists active products, optionally including parent products and upcharges.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                properties:
+                  includeParents:
+                    type: boolean
+                  includeUpcharges:
+                    type: boolean
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getPriceLists:
+    post:
+      operationId: getPriceLists
+      tags:
+      - Products
+      summary: List price lists
+      description: Retrieves all active price lists.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthBody'
+      responses:
+        '200':
+          description: A list of price lists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PriceLists:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getInventory:
+    post:
+      operationId: getInventory
+      tags:
+      - Products
+      summary: Get inventory
+      description: Fetches current inventory stock levels.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthBody'
+      responses:
+        '200':
+          description: Current inventory levels.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Inventory:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+        parentID:
+          type: string
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.

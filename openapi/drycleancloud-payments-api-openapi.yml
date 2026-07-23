@@ -1,0 +1,426 @@
+openapi: 3.0.3
+info:
+  title: CleanCloud Business and Reporting Payments API
+  description: 'The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses. It covers customers, orders and garments, products, price lists, inventory, pickup and delivery scheduling and routing, payments and subscriptions, invoices, promotions and loyalty, messaging, and reporting.
+
+
+    All calls are HTTPS POST requests with a JSON body to https://cleancloudapp.com/api and return JSON. Authentication uses a per-account API token passed as the `api_token` field in the JSON request body (found in the CleanCloud admin under Settings > Admin > Pickup and Delivery > API). Because the token is a body field rather than an HTTP header or query parameter, it is modeled here as a required `api_token` property on each request schema rather than as an OpenAPI security scheme.
+
+
+    API access requires a Grow or Grow+ subscription (Pro in Mexico) and is metered at 50,000 requests per month with a maximum of 3 requests per second; additional 25,000-request bundles are available. CleanCloud also emits outbound webhooks for order and customer events; those are documented in the provider apis.yml and review, not as request/response paths here.'
+  version: '1.0'
+  contact:
+    name: CleanCloud
+    url: https://cleancloudapp.com
+  x-authentication:
+    scheme: api_token
+    location: request body (JSON field `api_token`)
+    note: Every endpoint requires the api_token field. It is not sent as an Authorization header or query parameter.
+servers:
+- url: https://cleancloudapp.com/api
+  description: CleanCloud production API
+tags:
+- name: Payments
+  description: Payments, cards, subscriptions, invoices, promotions, and loyalty.
+paths:
+  /getPayments:
+    post:
+      operationId: getPayments
+      tags:
+      - Payments
+      summary: List payments
+      description: Lists payments, optionally filtered by date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                properties:
+                  dateFrom:
+                    type: string
+                  dateTo:
+                    type: string
+      responses:
+        '200':
+          description: A list of payments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Payments:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getInvoices:
+    post:
+      operationId: getInvoices
+      tags:
+      - Payments
+      summary: List invoices
+      description: Retrieves invoices by customer, business account, or date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                properties:
+                  customerID:
+                    type: string
+                  businessID:
+                    type: string
+                  dateFrom:
+                    type: string
+                  dateTo:
+                    type: string
+      responses:
+        '200':
+          description: A list of invoices.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Invoices:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addCard:
+    post:
+      operationId: addCard
+      tags:
+      - Payments
+      summary: Save a payment card
+      description: Saves a card via a Stripe, Clearent, or Amazon payment token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                - token
+                properties:
+                  customerID:
+                    type: string
+                  token:
+                    type: string
+                  provider:
+                    type: string
+                    enum:
+                    - stripe
+                    - clearent
+                    - amazon
+      responses:
+        '200':
+          description: The saved card.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /chargeCard:
+    post:
+      operationId: chargeCard
+      tags:
+      - Payments
+      summary: Charge a saved card
+      description: Charges an amount to a customer's saved card.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                - amount
+                properties:
+                  customerID:
+                    type: string
+                  amount:
+                    type: number
+                  cardID:
+                    type: string
+      responses:
+        '200':
+          description: The charge result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getCards:
+    post:
+      operationId: getCards
+      tags:
+      - Payments
+      summary: List saved cards
+      description: Lists a customer's saved cards, by provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                properties:
+                  customerID:
+                    type: string
+                  provider:
+                    type: string
+      responses:
+        '200':
+          description: A list of saved cards.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Cards:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /setDefaultCard:
+    post:
+      operationId: setDefaultCard
+      tags:
+      - Payments
+      summary: Set default card
+      description: Designates a saved card as the customer's default payment method.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                - cardID
+                properties:
+                  customerID:
+                    type: string
+                  cardID:
+                    type: string
+      responses:
+        '200':
+          description: Result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /addSubscription:
+    post:
+      operationId: addSubscription
+      tags:
+      - Payments
+      summary: Create a subscription
+      description: Enables a recurring subscription for a customer (supports 3D Secure).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                properties:
+                  customerID:
+                    type: string
+                  planID:
+                    type: string
+      responses:
+        '200':
+          description: The created subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deleteSubscription:
+    post:
+      operationId: deleteSubscription
+      tags:
+      - Payments
+      summary: Cancel a subscription
+      description: Cancels a customer's recurring subscription.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - subscriptionID
+                properties:
+                  subscriptionID:
+                    type: string
+      responses:
+        '200':
+          description: Cancellation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /getSubscription:
+    post:
+      operationId: getSubscription
+      tags:
+      - Payments
+      summary: Get a subscription
+      description: Retrieves a customer's subscription details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                properties:
+                  customerID:
+                    type: string
+      responses:
+        '200':
+          description: Subscription details.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /usePromo:
+    post:
+      operationId: usePromo
+      tags:
+      - Payments
+      summary: Apply a promo code
+      description: Applies a promo/coupon code, or validates it only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - promoCode
+                properties:
+                  promoCode:
+                    type: string
+                  customerID:
+                    type: string
+                  validateOnly:
+                    type: boolean
+      responses:
+        '200':
+          description: The promo result.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /convertLoyaltyPoints:
+    post:
+      operationId: convertLoyaltyPoints
+      tags:
+      - Payments
+      summary: Convert loyalty points
+      description: Converts a customer's loyalty points into account credit.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AuthBody'
+              - type: object
+                required:
+                - customerID
+                - points
+                properties:
+                  customerID:
+                    type: string
+                  points:
+                    type: integer
+      responses:
+        '200':
+          description: Conversion result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
