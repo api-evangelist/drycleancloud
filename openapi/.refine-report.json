@@ -1,0 +1,26 @@
+{
+  "provider": "drycleancloud",
+  "sources": [
+    "drycleancloud-business-and-reporting-api-openapi.yml",
+    "drycleancloud-customers-api-openapi.yml",
+    "drycleancloud-messaging-api-openapi.yml",
+    "drycleancloud-orders-api-openapi.yml",
+    "drycleancloud-payments-api-openapi.yml",
+    "drycleancloud-pickup-and-delivery-api-openapi.yml",
+    "drycleancloud-products-api-openapi.yml"
+  ],
+  "outputs": [
+    "drycleancloud-business-and-reporting-api-openapi.yml",
+    "drycleancloud-customers-api-openapi.yml",
+    "drycleancloud-messaging-api-openapi.yml",
+    "drycleancloud-orders-api-openapi.yml",
+    "drycleancloud-payments-api-openapi.yml",
+    "drycleancloud-pickup-and-delivery-api-openapi.yml",
+    "drycleancloud-products-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
