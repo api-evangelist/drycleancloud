@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud Business and Reporting Messaging API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messaging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a message from a customer to the store."
+        },
+        {
+          "info": {
+            "name": "List messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getMessages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves messaging history, with an optional result limit."
+        },
+        {
+          "info": {
+            "name": "Register a push token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addPushToken",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a Firebase push notification token for iOS or Android."
+        },
+        {
+          "info": {
+            "name": "Remove a push token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/deletePushToken",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes a push notification token on logout or uninstall."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

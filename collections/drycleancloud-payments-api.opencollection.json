@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud Business and Reporting Payments API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getPayments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists payments, optionally filtered by date."
+        },
+        {
+          "info": {
+            "name": "List invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getInvoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves invoices by customer, business account, or date."
+        },
+        {
+          "info": {
+            "name": "Save a payment card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addCard",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Saves a card via a Stripe, Clearent, or Amazon payment token."
+        },
+        {
+          "info": {
+            "name": "Charge a saved card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/chargeCard",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Charges an amount to a customer's saved card."
+        },
+        {
+          "info": {
+            "name": "List saved cards",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getCards",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists a customer's saved cards, by provider."
+        },
+        {
+          "info": {
+            "name": "Set default card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/setDefaultCard",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Designates a saved card as the customer's default payment method."
+        },
+        {
+          "info": {
+            "name": "Create a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addSubscription",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables a recurring subscription for a customer (supports 3D Secure)."
+        },
+        {
+          "info": {
+            "name": "Cancel a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/deleteSubscription",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels a customer's recurring subscription."
+        },
+        {
+          "info": {
+            "name": "Get a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getSubscription",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a customer's subscription details."
+        },
+        {
+          "info": {
+            "name": "Apply a promo code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/usePromo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Applies a promo/coupon code, or validates it only."
+        },
+        {
+          "info": {
+            "name": "Convert loyalty points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/convertLoyaltyPoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts a customer's loyalty points into account credit."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

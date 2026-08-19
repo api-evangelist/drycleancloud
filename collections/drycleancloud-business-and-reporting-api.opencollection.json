@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud Business and Reporting API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Business and Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List business accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getBusinessAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves business (commercial) account configurations."
+        },
+        {
+          "info": {
+            "name": "Get summary report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/summaryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns daily summary metrics for a date range."
+        },
+        {
+          "info": {
+            "name": "Get order photos",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getPhotos",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves photos associated with an order."
+        },
+        {
+          "info": {
+            "name": "Add customer to group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addToCustomerGroup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assigns a customer to a customer group."
+        },
+        {
+          "info": {
+            "name": "Get referral code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getReferral",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a customer's unique referral code and gift details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,970 @@
+{
+  "item": [
+    {
+      "id": "f68d4f40-4756-4c3d-b14a-7c1527427739",
+      "name": "Orders",
+      "description": {
+        "content": "Orders and the garments within them.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44590bde-cb7d-4c90-97aa-0da84374b48c",
+          "name": "Create an order",
+          "request": {
+            "name": "Create an order",
+            "description": {
+              "content": "Creates a new order for a customer with a list of products and a final total.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "addOrder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"finalTotal\": \"<number>\",\n  \"products\": [\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    },\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa69f9f1-48e7-4ca1-b4f5-d9f3c5c413bb",
+              "name": "The created order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "addOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"finalTotal\": \"<number>\",\n  \"products\": [\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    },\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Success\": \"string\",\n  \"orderID\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "678b8f0f-fd86-4996-980b-d31ec660b080",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "addOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"finalTotal\": \"<number>\",\n  \"products\": [\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    },\n    {\n      \"productID\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<number>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "201501f5-0162-4963-bd10-d8955b451568",
+          "name": "Update an order",
+          "request": {
+            "name": "Update an order",
+            "description": {
+              "content": "Updates an order's details, status, or payment state.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "updateOrder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"paid\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0a58a060-5563-43db-93a8-00a8428f96a8",
+              "name": "The updated order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "updateOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"paid\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Success\": \"string\",\n  \"orderID\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8e487e0-dabf-4d1a-ad41-70863fb3b327",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "updateOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"paid\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32cad70d-07e7-46e8-ad4d-b782494bed1a",
+          "name": "Delete an order",
+          "request": {
+            "name": "Delete an order",
+            "description": {
+              "content": "Deletes an order, optionally validating against its pickup time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deleteOrder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"checkPickupTime\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9024264f-1028-45fa-9fbc-c1eb8bef4eb5",
+              "name": "Deletion result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleteOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"checkPickupTime\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3269fdb-5ce6-4026-9126-d8584ea964b7",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deleteOrder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"checkPickupTime\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07fee51f-8281-4535-b073-1d8c6136cdff",
+          "name": "List orders",
+          "request": {
+            "name": "List orders",
+            "description": {
+              "content": "Retrieves orders filtered by customer, route, date, or status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getOrders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"dateFrom\": \"<string>\",\n  \"dateTo\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f068db7-4726-4db1-9168-e5472fa010fb",
+              "name": "A list of orders.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"dateFrom\": \"<string>\",\n  \"dateTo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Orders\": [\n    {\n      \"id\": \"string\",\n      \"customerID\": \"string\",\n      \"finalTotal\": 2310.058605144101,\n      \"orderStatus\": \"string\",\n      \"paid\": false,\n      \"products\": [\n        {\n          \"productID\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<number>\"\n        },\n        {\n          \"productID\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<number>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"customerID\": \"string\",\n      \"finalTotal\": 7263.87681528991,\n      \"orderStatus\": \"string\",\n      \"paid\": true,\n      \"products\": [\n        {\n          \"productID\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<number>\"\n        },\n        {\n          \"productID\": \"<string>\",\n          \"quantity\": \"<integer>\",\n          \"price\": \"<number>\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c816f42f-a1c1-4340-8ed8-a948a0db6b36",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"customerID\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"dateFrom\": \"<string>\",\n  \"dateTo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23caf185-624a-4af3-80c4-3a8c05925eb4",
+          "name": "Get a garment",
+          "request": {
+            "name": "Get a garment",
+            "description": {
+              "content": "Fetches a single garment by its barcode.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getGarment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "43bfe651-a13f-415f-88d0-f2cc01870643",
+              "name": "The requested garment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getGarment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"barcode\": \"string\",\n  \"orderID\": \"string\",\n  \"color\": \"string\",\n  \"notes\": \"string\",\n  \"location\": \"string\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1e6e7c8-2471-4d32-9345-724072ffc6db",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getGarment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c079e17c-a8ca-40d2-86e5-86694708f481",
+          "name": "List garments in an order",
+          "request": {
+            "name": "List garments in an order",
+            "description": {
+              "content": "Retrieves all garments belonging to an order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getGarments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bfde572b-5f33-4225-9b50-c58f025c1d47",
+              "name": "A list of garments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getGarments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Garments\": [\n    {\n      \"barcode\": \"string\",\n      \"orderID\": \"string\",\n      \"color\": \"string\",\n      \"notes\": \"string\",\n      \"location\": \"string\",\n      \"status\": \"string\"\n    },\n    {\n      \"barcode\": \"string\",\n      \"orderID\": \"string\",\n      \"color\": \"string\",\n      \"notes\": \"string\",\n      \"location\": \"string\",\n      \"status\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce67333e-58d4-4cac-b1d7-5070983ccbe5",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getGarments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"orderID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6fcad88a-ecda-46fc-95a3-5f53f32000d8",
+          "name": "Update a garment",
+          "request": {
+            "name": "Update a garment",
+            "description": {
+              "content": "Updates a garment's color, notes, location, or status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "updateGarment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\",\n  \"color\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"location\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "caa4d13e-88d2-44ca-bb5a-7b9449d75319",
+              "name": "The updated garment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "updateGarment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\",\n  \"color\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"location\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"barcode\": \"string\",\n  \"orderID\": \"string\",\n  \"color\": \"string\",\n  \"notes\": \"string\",\n  \"location\": \"string\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "975186d6-a3d4-4833-9863-b0c59bd1bff3",
+              "name": "Missing or invalid api_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "updateGarment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_token\": \"<string>\",\n  \"barcode\": \"<string>\",\n  \"color\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"location\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Error\": \"string\",\n  \"Success\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cleancloudapp.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fad1cd77-3507-407a-b514-10bb78287a8e",
+    "name": "CleanCloud Business and Reporting Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses. It covers customers, orders and garments, products, price lists, inventory, pickup and delivery scheduling and routing, payments and subscriptions, invoices, promotions and loyalty, messaging, and reporting.\n\nAll calls are HTTPS POST requests with a JSON body to https://cleancloudapp.com/api and return JSON. Authentication uses a per-account API token passed as the `api_token` field in the JSON request body (found in the CleanCloud admin under Settings > Admin > Pickup and Delivery > API). Because the token is a body field rather than an HTTP header or query parameter, it is modeled here as a required `api_token` property on each request schema rather than as an OpenAPI security scheme.\n\nAPI access requires a Grow or Grow+ subscription (Pro in Mexico) and is metered at 50,000 requests per month with a maximum of 3 requests per second; additional 25,000-request bundles are available. CleanCloud also emits outbound webhooks for order and customer events; those are documented in the provider apis.yml and review, not as request/response paths here.\n\nContact Support:\n Name: CleanCloud",
+      "type": "text/plain"
+    }
+  }
+}

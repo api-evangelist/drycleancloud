@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud Business and Reporting Customers API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/addCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new customer account."
+        },
+        {
+          "info": {
+            "name": "Update a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/updateCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates fields on an existing customer identified by customerID."
+        },
+        {
+          "info": {
+            "name": "Delete a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/deleteCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes a customer account by customerID."
+        },
+        {
+          "info": {
+            "name": "Get customer(s)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a single customer by customerID, or a set of customers by a created/updated date range."
+        },
+        {
+          "info": {
+            "name": "Authenticate a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/loginCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticates a customer by email and password and returns the customer ID."
+        },
+        {
+          "info": {
+            "name": "Send password reset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/passwordCustomer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers a password-reset email to the customer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

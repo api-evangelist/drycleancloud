@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CleanCloud Business and Reporting Pickup and Delivery API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pickup and Delivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a recurring pickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/repeatPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a scheduled recurring pickup for a customer."
+        },
+        {
+          "info": {
+            "name": "Update a recurring pickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/updateRepeatPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modifies an existing recurring pickup schedule."
+        },
+        {
+          "info": {
+            "name": "Cancel a recurring pickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/deletePickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels a recurring pickup."
+        },
+        {
+          "info": {
+            "name": "List recurring pickups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getPickups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a customer's recurring pickups."
+        },
+        {
+          "info": {
+            "name": "Get available dates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getDates",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns available pickup/delivery dates with remaining slot counts."
+        },
+        {
+          "info": {
+            "name": "Get time slots",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getSlots",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns available time slots for a route on a given day."
+        },
+        {
+          "info": {
+            "name": "Resolve a route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/getRoute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Determines the delivery route from coordinates or an address."
+        },
+        {
+          "info": {
+            "name": "Get driver location",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cleancloudapp.com/api/driverLocation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current driver location for an order."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
