@@ -29,6 +29,13 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/drycleancl
 tags:
 - Dry Cleaning
 - Laundry
+- Point-of-Sale
+- Field Service
+- Pickup and Delivery
+- SMB Software
+tags_raw:
+- Dry Cleaning
+- Laundry
 - Point of Sale
 - POS
 - Field Service
@@ -107,6 +114,8 @@ apis:
   humanURL: https://cleancloudapp.com/api
   baseURL: https://cleancloudapp.com/api
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -170,6 +179,8 @@ apis:
   humanURL: https://cleancloudapp.com/api
   baseURL: https://cleancloudapp.com/api
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
