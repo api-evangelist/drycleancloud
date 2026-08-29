@@ -13,6 +13,18 @@ description: CleanCloud is cloud-based point-of-sale (POS) and business manageme
   available on the Grow and Grow+ subscription tiers, authenticated with a
   per-account API token and metered at 50,000 requests per month (max 3 requests
   per second).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: unknown
