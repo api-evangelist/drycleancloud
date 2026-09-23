@@ -1,13 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: CleanCloud Business and Reporting Orders API
-  description: 'The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses. It covers customers, orders and garments, products, price lists, inventory, pickup and delivery scheduling and routing, payments and subscriptions, invoices, promotions and loyalty, messaging, and reporting.
-
-
-    All calls are HTTPS POST requests with a JSON body to https://cleancloudapp.com/api and return JSON. Authentication uses a per-account API token passed as the `api_token` field in the JSON request body (found in the CleanCloud admin under Settings > Admin > Pickup and Delivery > API). Because the token is a body field rather than an HTTP header or query parameter, it is modeled here as a required `api_token` property on each request schema rather than as an OpenAPI security scheme.
-
-
-    API access requires a Grow or Grow+ subscription (Pro in Mexico) and is metered at 50,000 requests per month with a maximum of 3 requests per second; additional 25,000-request bundles are available. CleanCloud also emits outbound webhooks for order and customer events; those are documented in the provider apis.yml and review, not as request/response paths here.'
+  title: CleanCloud Orders API
+  description: The CleanCloud API provides programmatic access to the CleanCloud point-of-sale and business-management platform for dry cleaners, laundromats, laundry services, and shoe repair businesses.
   version: '1.0'
   contact:
     name: CleanCloud
@@ -264,13 +258,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
+    OrderProduct:
       type: object
       properties:
-        Error:
+        productID:
           type: string
-        Success:
-          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
     OrderResponse:
       type: object
       properties:
@@ -278,20 +274,6 @@ components:
           type: string
         orderID:
           type: string
-    AuthBody:
-      type: object
-      required:
-      - api_token
-      properties:
-        api_token:
-          type: string
-          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
     Order:
       type: object
       properties:
@@ -324,15 +306,27 @@ components:
           type: string
         status:
           type: string
-    OrderProduct:
+    SuccessResponse:
       type: object
       properties:
-        productID:
+        Success:
           type: string
-        quantity:
-          type: integer
-        price:
-          type: number
+          description: Typically "True" on success.
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
   responses:
     Unauthorized:
       description: Missing or invalid api_token.

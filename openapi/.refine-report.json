@@ -1,13 +1,7 @@
 {
   "provider": "drycleancloud",
   "sources": [
-    "drycleancloud-business-and-reporting-api-openapi.yml",
-    "drycleancloud-customers-api-openapi.yml",
-    "drycleancloud-messaging-api-openapi.yml",
-    "drycleancloud-orders-api-openapi.yml",
-    "drycleancloud-payments-api-openapi.yml",
-    "drycleancloud-pickup-and-delivery-api-openapi.yml",
-    "drycleancloud-products-api-openapi.yml"
+    "_original/drycleancloud-openapi.yml"
   ],
   "outputs": [
     "drycleancloud-business-and-reporting-api-openapi.yml",
@@ -21,6 +15,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "drycleancloud-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "drycleancloud-business-and-reporting-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-messaging-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-payments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-pickup-and-delivery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "drycleancloud-products-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
