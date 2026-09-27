@@ -258,39 +258,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    OrderProduct:
-      type: object
-      properties:
-        productID:
-          type: string
-        quantity:
-          type: integer
-        price:
-          type: number
-    OrderResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-        orderID:
-          type: string
-    Order:
-      type: object
-      properties:
-        id:
-          type: string
-        customerID:
-          type: string
-        finalTotal:
-          type: number
-        orderStatus:
-          type: string
-        paid:
-          type: boolean
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderProduct'
     Garment:
       type: object
       properties:
@@ -320,6 +287,22 @@ components:
         api_token:
           type: string
           description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    OrderResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        orderID:
+          type: string
+    OrderProduct:
+      type: object
+      properties:
+        productID:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
     Error:
       type: object
       properties:
@@ -327,6 +310,23 @@ components:
           type: string
         Success:
           type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        customerID:
+          type: string
+        finalTotal:
+          type: number
+        orderStatus:
+          type: string
+        paid:
+          type: boolean
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
   responses:
     Unauthorized:
       description: Missing or invalid api_token.
