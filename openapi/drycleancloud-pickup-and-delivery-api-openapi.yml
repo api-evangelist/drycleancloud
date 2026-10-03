@@ -283,6 +283,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
     Error:
       type: object
       properties:
@@ -290,12 +296,6 @@ components:
           type: string
         Success:
           type: string
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
     AuthBody:
       type: object
       required:

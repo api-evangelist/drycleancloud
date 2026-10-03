@@ -258,27 +258,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Garment:
+    OrderProduct:
       type: object
       properties:
-        barcode:
+        productID:
           type: string
-        orderID:
-          type: string
-        color:
-          type: string
-        notes:
-          type: string
-        location:
-          type: string
-        status:
-          type: string
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
+        quantity:
+          type: integer
+        price:
+          type: number
     AuthBody:
       type: object
       required:
@@ -294,21 +282,20 @@ components:
           type: string
         orderID:
           type: string
-    OrderProduct:
+    Garment:
       type: object
       properties:
-        productID:
+        barcode:
           type: string
-        quantity:
-          type: integer
-        price:
-          type: number
-    Error:
-      type: object
-      properties:
-        Error:
+        orderID:
           type: string
-        Success:
+        color:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+        status:
           type: string
     Order:
       type: object
@@ -327,6 +314,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderProduct'
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
   responses:
     Unauthorized:
       description: Missing or invalid api_token.

@@ -109,13 +109,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        Error:
-          type: string
-        Success:
-          type: string
     Product:
       type: object
       properties:
@@ -128,6 +121,13 @@ components:
         category:
           type: string
         parentID:
+          type: string
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
           type: string
     AuthBody:
       type: object

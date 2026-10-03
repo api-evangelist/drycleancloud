@@ -201,48 +201,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid api_token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
-    CustomerInput:
-      type: object
-      properties:
-        customerName:
-          type: string
-        customerTel:
-          type: string
-        customerEmail:
-          type: string
-        customerAddress:
-          type: string
-        customerPassword:
-          type: string
-    CustomerResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-        customerID:
-          type: string
-    AuthBody:
-      type: object
-      required:
-      - api_token
-      properties:
-        api_token:
-          type: string
-          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
     Customer:
       type: object
       properties:
@@ -260,6 +219,40 @@ components:
           type: number
         loyaltyPoints:
           type: integer
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    CustomerInput:
+      type: object
+      properties:
+        customerName:
+          type: string
+        customerTel:
+          type: string
+        customerEmail:
+          type: string
+        customerAddress:
+          type: string
+        customerPassword:
+          type: string
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    CustomerResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        customerID:
+          type: string
     Error:
       type: object
       properties:
@@ -267,3 +260,10 @@ components:
           type: string
         Success:
           type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
