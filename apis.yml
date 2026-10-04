@@ -209,6 +209,9 @@ apis:
     url: >-
       https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks
 common:
+- type: CapabilityMap
+  url: capabilities/drycleancloud-capability-edges.yml
+  name: CleanCloud Business Capability Map
 - type: AgenticAccess
   url: agentic-access/drycleancloud-agentic-access.yml
 - type: DomainSecurity
