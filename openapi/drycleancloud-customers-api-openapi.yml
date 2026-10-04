@@ -202,23 +202,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Customer:
-      type: object
-      properties:
-        id:
-          type: string
-        customerName:
-          type: string
-        customerTel:
-          type: string
-        customerEmail:
-          type: string
-        customerAddress:
-          type: string
-        credit:
-          type: number
-        loyaltyPoints:
-          type: integer
     AuthBody:
       type: object
       required:
@@ -240,6 +223,13 @@ components:
           type: string
         customerPassword:
           type: string
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
     SuccessResponse:
       type: object
       properties:
@@ -253,13 +243,23 @@ components:
           type: string
         customerID:
           type: string
-    Error:
+    Customer:
       type: object
       properties:
-        Error:
+        id:
           type: string
-        Success:
+        customerName:
           type: string
+        customerTel:
+          type: string
+        customerEmail:
+          type: string
+        customerAddress:
+          type: string
+        credit:
+          type: number
+        loyaltyPoints:
+          type: integer
   responses:
     Unauthorized:
       description: Missing or invalid api_token.

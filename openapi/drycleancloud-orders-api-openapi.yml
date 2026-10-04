@@ -258,45 +258,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    OrderProduct:
-      type: object
-      properties:
-        productID:
-          type: string
-        quantity:
-          type: integer
-        price:
-          type: number
-    AuthBody:
-      type: object
-      required:
-      - api_token
-      properties:
-        api_token:
-          type: string
-          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
-    OrderResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-        orderID:
-          type: string
-    Garment:
-      type: object
-      properties:
-        barcode:
-          type: string
-        orderID:
-          type: string
-        color:
-          type: string
-        notes:
-          type: string
-        location:
-          type: string
-        status:
-          type: string
     Order:
       type: object
       properties:
@@ -314,18 +275,57 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderProduct'
-    SuccessResponse:
+    AuthBody:
       type: object
+      required:
+      - api_token
       properties:
-        Success:
+        api_token:
           type: string
-          description: Typically "True" on success.
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
     Error:
       type: object
       properties:
         Error:
           type: string
         Success:
+          type: string
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
+    Garment:
+      type: object
+      properties:
+        barcode:
+          type: string
+        orderID:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+    OrderProduct:
+      type: object
+      properties:
+        productID:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+    OrderResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        orderID:
           type: string
   responses:
     Unauthorized:

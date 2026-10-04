@@ -283,12 +283,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
     Error:
       type: object
       properties:
@@ -304,6 +298,12 @@ components:
         api_token:
           type: string
           description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
   responses:
     Unauthorized:
       description: Missing or invalid api_token.
