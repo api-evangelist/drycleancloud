@@ -202,14 +202,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    AuthBody:
+    Error:
       type: object
-      required:
-      - api_token
       properties:
-        api_token:
+        Error:
           type: string
-          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+        Success:
+          type: string
     CustomerInput:
       type: object
       properties:
@@ -222,26 +221,6 @@ components:
         customerAddress:
           type: string
         customerPassword:
-          type: string
-    Error:
-      type: object
-      properties:
-        Error:
-          type: string
-        Success:
-          type: string
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
-    CustomerResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-        customerID:
           type: string
     Customer:
       type: object
@@ -260,6 +239,27 @@ components:
           type: number
         loyaltyPoints:
           type: integer
+    CustomerResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+        customerID:
+          type: string
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
   responses:
     Unauthorized:
       description: Missing or invalid api_token.

@@ -151,14 +151,20 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    SuccessResponse:
       type: object
       properties:
-        Error:
-          type: string
         Success:
           type: string
+          description: Typically "True" on success.
     AuthBody:
       type: object
       required:
@@ -167,16 +173,10 @@ components:
         api_token:
           type: string
           description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
-    SuccessResponse:
+    Error:
       type: object
       properties:
+        Error:
+          type: string
         Success:
           type: string
-          description: Typically "True" on success.
-  responses:
-    Unauthorized:
-      description: Missing or invalid api_token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'

@@ -258,6 +258,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Garment:
+      type: object
+      properties:
+        barcode:
+          type: string
+        orderID:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+    Error:
+      type: object
+      properties:
+        Error:
+          type: string
+        Success:
+          type: string
     Order:
       type: object
       properties:
@@ -275,42 +297,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderProduct'
-    AuthBody:
-      type: object
-      required:
-      - api_token
-      properties:
-        api_token:
-          type: string
-          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
-    Error:
-      type: object
-      properties:
-        Error:
-          type: string
-        Success:
-          type: string
-    SuccessResponse:
-      type: object
-      properties:
-        Success:
-          type: string
-          description: Typically "True" on success.
-    Garment:
-      type: object
-      properties:
-        barcode:
-          type: string
-        orderID:
-          type: string
-        color:
-          type: string
-        notes:
-          type: string
-        location:
-          type: string
-        status:
-          type: string
     OrderProduct:
       type: object
       properties:
@@ -320,6 +306,20 @@ components:
           type: integer
         price:
           type: number
+    AuthBody:
+      type: object
+      required:
+      - api_token
+      properties:
+        api_token:
+          type: string
+          description: Per-account API token from Settings > Admin > Pickup and Delivery > API. Required on every request.
+    SuccessResponse:
+      type: object
+      properties:
+        Success:
+          type: string
+          description: Typically "True" on success.
     OrderResponse:
       type: object
       properties:
