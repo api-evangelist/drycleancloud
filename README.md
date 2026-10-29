@@ -1,4 +1,4 @@
-# CleanCloud (drycleancloud)
+# CleanCloud
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,122 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-CleanCloud is cloud-based point-of-sale (POS) and business management software for dry cleaners, laundromats, laundry services, and shoe repair businesses. It handles orders, garment tracking, customers, pickup and delivery routing, payments, inventory, marketing, and reporting. CleanCloud exposes a documented public REST API (base `https://cleancloudapp.com/api`) for programmatic access to customers, orders, garments, products, price lists, inventory, pickup and delivery scheduling, payments, subscriptions, invoices, promotions, and reporting, plus outbound Webhooks for order and customer events. API access is available on the Grow and Grow+ subscription tiers, authenticated with a per-account API token (the `api_token` field in the JSON request body) and metered at 50,000 requests per month (max 3 requests per second).
+CleanCloud is cloud-based point-of-sale (POS) and business management software for dry cleaners, laundromats, laundry services, and shoe repair businesses. It handles orders, garment tracking, customers, pickup and delivery routing, payments, inventory, marketing, and reporting. CleanCloud exposes a documented public REST API (base https://cleancloudapp.com/api) for programmatic access to customers, orders, garments, products, price lists, inventory, pickup and delivery scheduling, payments, subscriptions, invoices, promotions, and reporting, plus outbound Webhooks for order and customer events. API access is available on the Grow and Grow+ subscription tiers, authenticated with a per-account API token and metered at 50,000 requests per month (max 3 requests per second).
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/drycleancloud/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/drycleancloud/refs/heads/main/apis.yml)
+**Areas:** Dry Cleaning · Laundry · Point-of-Sale · Field Service · Pickup and Delivery · Small Business
 
-## Tags
+## CleanCloud on APIs.io
 
-- Dry Cleaning
-- Laundry
-- Point of Sale
-- POS
-- Field Service
-- Pickup and Delivery
-- SMB Software
+Everything profiled for CleanCloud is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/drycleancloud/](https://apis.io/providers/drycleancloud/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-07-04
-- **Modified:** 2026-07-04
+- [CleanCloud Business and Reporting API](https://apis.io/apis/drycleancloud/drycleancloud-business-and-reporting-api/) — Business accounts, reporting, photos, groups, and referrals.
+- [CleanCloud Customers API](https://apis.io/apis/drycleancloud/drycleancloud-customers-api/) — Customer accounts, authentication, and password reset.
+- [CleanCloud Messaging API](https://apis.io/apis/drycleancloud/drycleancloud-messaging-api/) — Customer/store messaging and push notification tokens.
+- [CleanCloud Orders API](https://apis.io/apis/drycleancloud/drycleancloud-orders-api/) — Orders and the garments within them.
+- [CleanCloud Payments API](https://apis.io/apis/drycleancloud/drycleancloud-payments-api/) — Payments, cards, subscriptions, invoices, promotions, and loyalty.
+- [CleanCloud Pickup and Delivery API](https://apis.io/apis/drycleancloud/drycleancloud-pickup-and-delivery-api/) — Recurring pickups, routing, scheduling, and driver location.
+- [CleanCloud Products API](https://apis.io/apis/drycleancloud/drycleancloud-products-api/) — Products, price lists, and inventory.
 
-## API Overview
+### Published properties
 
-- **Base URL:** `https://cleancloudapp.com/api`
-- **Protocol:** HTTPS REST; every endpoint is a `POST` with a JSON body and returns JSON.
-- **Authentication:** Per-account API token passed as the `api_token` field in the request body (Settings > Admin > Pickup and Delivery > API).
-- **Rate limits:** 50,000 requests/month, max 3 requests/second; additional 25,000-request bundles (~$15) available.
-- **Access:** Grow and Grow+ subscription tiers (Pro in Mexico).
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### CleanCloud Customers API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Create, update, delete, retrieve, and authenticate customer accounts, trigger password-reset emails, and query customers by ID or a created/updated date range.
+- [Drycleancloud Agentic Access](https://apis.io/agentic-access/drycleancloud/drycleancloud-agentic-access/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/addCustomer`, `/updateCustomer`, `/deleteCustomer`, `/getCustomer`, `/loginCustomer`, `/passwordCustomer`
+#### Collections (8)
 
-### CleanCloud Orders API
+Postman and Open Collection request collections.
 
-Create, update, delete, and list orders, and manage the individual garments within an order (lookup by barcode, list per order, and update color, notes, location, or status).
+- [CleanCloud API](https://apis.io/collections/drycleancloud/open-drycleancloud/)
+- [CleanCloud Business and Reporting API](https://apis.io/collections/drycleancloud/open-drycleancloud-business-and-reporting-api/)
+- [CleanCloud Business and Reporting Customers API](https://apis.io/collections/drycleancloud/open-drycleancloud-customers-api/)
+- [CleanCloud Business and Reporting Messaging API](https://apis.io/collections/drycleancloud/open-drycleancloud-messaging-api/)
+- [CleanCloud Business and Reporting Orders API](https://apis.io/collections/drycleancloud/open-drycleancloud-orders-api/)
+- [CleanCloud Business and Reporting Payments API](https://apis.io/collections/drycleancloud/open-drycleancloud-payments-api/)
+- [CleanCloud Business and Reporting Pickup and Delivery API](https://apis.io/collections/drycleancloud/open-drycleancloud-pickup-and-delivery-api/)
+- [CleanCloud Business and Reporting Products API](https://apis.io/collections/drycleancloud/open-drycleancloud-products-api/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/addOrder`, `/updateOrder`, `/deleteOrder`, `/getOrders`, `/getGarment`, `/getGarments`, `/updateGarment`
+#### Security (1)
 
-### CleanCloud Products & Inventory API
+Authentication, trust centre, and vulnerability disclosure.
 
-Retrieve the active product catalog (optionally including parent products and upcharges), all active price lists, and current inventory stock levels.
+- [Drycleancloud Domain Security](https://apis.io/security/drycleancloud/drycleancloud-domain-security/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/getProducts`, `/getPriceLists`, `/getInventory`
+#### Plans and pricing (1)
 
-### CleanCloud Pickup & Delivery API
+Published plans, tiers and prices.
 
-Schedule and manage recurring pickups, resolve delivery routes from an address or coordinates, list available pickup/delivery dates and time slots, and fetch a driver's current location for an order.
+- [Drycleancloud Plans Pricing](https://apis.io/plans/drycleancloud/drycleancloud-plans-pricing/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/repeatPickup`, `/updateRepeatPickup`, `/deletePickup`, `/getPickups`, `/getDates`, `/getSlots`, `/getRoute`, `/driverLocation`
+#### Rate limits (1)
 
-### CleanCloud Payments & Promotions API
+Published request limits.
 
-List payments and invoices, save and charge payment cards (Stripe, Clearent, Amazon) and set a default card, manage recurring customer subscriptions, apply or validate promo/coupon codes, and convert loyalty points to account credit.
+- [Drycleancloud Rate Limits](https://apis.io/rate-limits/drycleancloud/drycleancloud-rate-limits/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/getPayments`, `/getInvoices`, `/addCard`, `/chargeCard`, `/getCards`, `/setDefaultCard`, `/addSubscription`, `/deleteSubscription`, `/getSubscription`, `/usePromo`, `/convertLoyaltyPoints`
+#### FinOps (1)
 
-### CleanCloud Business & Reporting API
+What the API costs to run, by operation.
 
-Retrieve business (commercial) account configurations, pull daily summary report metrics for a date range, fetch photos attached to an order, add a customer to a customer group, and get a customer's referral code and gift details. CleanCloud does not document a dedicated multi-store listing endpoint; business/location context is exposed through `/getBusinessAccounts`.
+- [Drycleancloud Finops](https://apis.io/finops/drycleancloud/drycleancloud-finops/)
 
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/getBusinessAccounts`, `/summaryReport`, `/getPhotos`, `/addToCustomerGroup`, `/getReferral`
+## Where to find this API
 
-### CleanCloud Messaging API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-Send messages between a customer and a store and retrieve message history (with an optional result limit), plus register and remove Firebase push notification tokens for iOS and Android apps.
-
-- **Human URL:** [https://cleancloudapp.com/api](https://cleancloudapp.com/api)
-- **Base URL:** `https://cleancloudapp.com/api`
-- Endpoints: `/addMessage`, `/getMessages`, `/addPushToken`, `/deletePushToken`
-
-### CleanCloud Webhooks
-
-Outbound webhooks that POST to a configured external URL when an event occurs. Configured under Settings > Admin > Pickup and Delivery > API > Webhooks. 10 events:
-
-- `order.created` (In Store Orders)
-- `order.created` (Pickup and Delivery Orders)
-- `order.status_changed`
-- `order.pickup_rescheduled`
-- `order.delivery_rescheduled`
-- `order.nothing_to_pickup`
-- `order.deleted`
-- `customer.created`
-- `customer.updated`
-- `customer.deleted`
-
-- **Human URL:** [https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks](https://help.cleancloud.com/en/articles/6770068-integrating-with-cleancloud-api-and-webhooks)
-
-## WebSocket Review
-
-CleanCloud does **not** expose a documented public WebSocket API. The public developer surface is request/response REST (HTTPS POST + JSON), and the only event-driven mechanism is outbound Webhooks (HTTP callbacks). See [review.yml](review.yml).
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/cleancloud)
 - [Website](https://cleancloudapp.com)
 - [Documentation](https://cleancloudapp.com/api)
-- [Plans](plans/drycleancloud-plans-pricing.yml)
-- [Rate Limits](rate-limits/drycleancloud-rate-limits.yml)
-- [Fin Ops](finops/drycleancloud-finops.yml)
+- [Blog](https://cleancloudapp.com/blog)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 22.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 20.2 |
+| Access clarity | 7.9 |
+
+**Agent readiness 20.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | yes |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/drycleancloud/](https://apis.io/providers/drycleancloud/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CleanCloud: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/drycleancloud/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
